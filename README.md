@@ -1,4 +1,4 @@
-# Heroku Buildpack Binary Download
+# Heroku Buildpack Binary Download With Cache
 
 This is a [Heroku Buildpack](https://devcenter.heroku.com/articles/buildpacks)
 that can download a executable binary file from a remote URL (such as [Amazon S3](http://aws.amazon.com/s3/)).
