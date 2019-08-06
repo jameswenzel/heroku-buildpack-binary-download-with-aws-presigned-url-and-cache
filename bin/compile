@@ -22,7 +22,7 @@ echo "Version: $version..." | indent
 output=$(cat $1/.release | sed -n '3p')
 echo "Output file name: $output..." | indent
 
-if [ -f "$2/$version/$output" ] then
+if [ -f "$2/$version/$output" ]; then
 	echo "-----> Binary cached found in cache as $version/$output!"
 else
 	echo "Downloading binary from $url as $version/$output..." | indent
