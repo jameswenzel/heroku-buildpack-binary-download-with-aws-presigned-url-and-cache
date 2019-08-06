@@ -26,6 +26,7 @@ if [ -f "$2/$version/$output" ]; then
 	echo "-----> Binary cached found in cache as $version/$output!"
 else
 	echo "Downloading binary from $url as $version/$output..." | indent
+	mkdir -p $2/$version/
 	curl -L --max-time 60 --silent -o $2/$version/$output $url
 	echo "-----> Binary downloaded from $url as $version/$output!"
 fi
