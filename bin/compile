@@ -14,8 +14,25 @@ indent() {
 echo "-----> Found .release file"
 
 url=$(head -n 1 $1/.release)
-echo "Provisioning $url" | indent
+echo "Download URL: $url..." | indent
 
-# Download the binary
-curl -L --max-time 60 --silent -o $1/app.bin $url
+version=$(head -n 2 $1/.release)
+echo "Version: $version..." | indent
+
+output=$(head -n 3 $1/.release)
+echo "Output file name: $output..." | indent
+
+if [ -f "$2/$version/$output" ] then
+	echo "-----> Binary cached found in cache as $version/$output!"
+else
+	echo "Downloading binary from $url as $version/$output..." | indent
+	curl -L --max-time 60 --silent -o $2/$version/$output $url
+	echo "-----> Binary downloaded from $url as $version/$output!"
+fi
+
+# Copy cached binary to build directory
+cp $2/$version/$output $1/$output
+# Ensure binary has sane permissions allowing it to be executed
+chmod a+x $1/$output
+
 exit $?
