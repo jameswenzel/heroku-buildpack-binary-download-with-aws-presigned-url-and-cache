@@ -23,7 +23,9 @@ server
 ```
 
 1st string is full url, from which we can download our binary.
+
 2nd string is version name, it will be used as cache key.
+
 3rd string is output name, so, binary file `application` will be renamed into executable called `server`, saved into Heroku build directory.
 
 
