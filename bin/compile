@@ -13,13 +13,13 @@ indent() {
 
 echo "-----> Found .release file"
 
-url=$(head -n 1 $1/.release)
+url=$(cat $1/.release | sed -n '1p')
 echo "Download URL: $url..." | indent
 
-version=$(head -n 2 $1/.release)
+version=$(cat $1/.release | sed -n '2p')
 echo "Version: $version..." | indent
 
-output=$(head -n 3 $1/.release)
+output=$(cat $1/.release | sed -n '3p')
 echo "Output file name: $output..." | indent
 
 if [ -f "$2/$version/$output" ] then
