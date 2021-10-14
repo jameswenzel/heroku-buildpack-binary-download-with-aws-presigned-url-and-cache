@@ -13,7 +13,7 @@ indent() {
 
 echo "-----> Found .release file"
 
-url=$(cat $1/.release | sed -n '1p')
+s3_url=$(cat $1/.release | sed -n '1p')
 echo "Download URL: $url..." | indent
 
 version=$(cat $1/.release | sed -n '2p')
@@ -22,17 +22,24 @@ echo "Version: $version..." | indent
 output=$(cat $1/.release | sed -n '3p')
 echo "Output file name: $output..." | indent
 
+exported_name=$(cat $1/.release | sed -n '4p')
+echo "Export var name: $exported_name..." | indent
+
 if [ -f "$2/$version/$output" ]; then
 	echo "-----> Binary is present in cache as $version/$output!"
 else
-	echo "Downloading binary from $url as $version/$output..." | indent
+	echo "Downloading binary from $s3_url as $version/$output..." | indent
 	mkdir -p $2/$version/
-	curl -L --max-time 60 --silent -o $2/$version/$output $url
-	echo "-----> Binary downloaded from $url as $version/$output!"
+	presigned_url=$(aws s3 presign $s3_url --expires-in 600)
+	curl -L --max-time 60 -o $2/$version/$output $presigned_url
+	echo "-----> Binary downloaded from $presigned_url as $version/$output!"
 fi
 
 # Copy cached binary to build directory
 cp $2/$version/$output $1/$output
+# export exported_name var 
+declare -x $exported_name=$1/$output
+
 # Ensure binary has sane permissions allowing it to be executed
 chmod a+x $1/$output
 

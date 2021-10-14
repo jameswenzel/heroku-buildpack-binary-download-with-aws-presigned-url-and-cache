@@ -7,35 +7,32 @@ speed up building application.
 
 ## Usage
 
+This buildpack requires [heroku-buildpack-awscli](https://github.com/heroku/heroku-buildpack-awscli)
+
 Set up the Buildpack in your app:
 ```bash
 heroku config:add BUILDPACK_URL=https://github.com/vodolaz095/heroku-buildpack-binary-download-with-cache --app <app>
 ```
 
-Then create a file called `.release` in the project root directory with 3(!!!) lines.  Its important to have 3 lines here.
+Then create a file called `.release` in the project root directory with 4 lines.  Its important to have 4 lines here.
 
 Something like this:
 
 ```
-http://s3.amazonaws.com/bucket/version_111/application
+s3://bucket-name/binary-path
 version_111
 server
+SERVER_EXECUTABLE_PATH
 ```
 
-1st string is full url, from which we can download our binary.
+1st string is an s3 url, from which we can download our binary.
 
 2nd string is version name, it will be used as cache key.
 
-3rd string is output name, so, binary file `application` will be renamed into executable called `server`, saved into Heroku build directory.
+3rd string is output name, so, binary file `binary-path` will be renamed into executable called `server`, saved into Heroku build directory.
 
+4th string is exported var name, so SERVER_EXECUTABLE_PATH will be set to the path to the executable and exported
 
-In order to execute the binary you must create a `Procfile`, optionally passing custom flags:
-
-```
-
-web: /app/server  --port $PORT --motd="Eat Holy Meat!"
-
-```
 
 ## See also
 
@@ -49,4 +46,4 @@ web: /app/server  --port $PORT --motd="Eat Holy Meat!"
 
 MIT license - Anatolij Ostroumov
 
-Partially based on MIT licensed code at [https://github.com/h2non/heroku-buildpack-binary-download](https://github.com/h2non/heroku-buildpack-binary-download)
+Partially based on MIT licensed code at [https://github.com/vodolaz095/heroku-buildpack-binary-download-with-cache](https://github.com/vodolaz095/heroku-buildpack-binary-download-with-cache)
