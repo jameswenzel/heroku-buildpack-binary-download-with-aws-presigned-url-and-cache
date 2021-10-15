@@ -30,6 +30,9 @@ if [ -f "$2/$version/$output" ]; then
 else
 	echo "Downloading binary from $s3_url as $version/$output..." | indent
 	mkdir -p $2/$version/
+	aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+	aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+	aws configure set default.region $AWS_DEFAULT_REGION
 	presigned_url=$(aws s3 presign $s3_url --expires-in 600)
 	curl -L --max-time 60 -o $2/$version/$output $presigned_url
 	echo "-----> Binary downloaded from $presigned_url as $version/$output!"
