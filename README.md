@@ -11,7 +11,7 @@ This buildpack requires [heroku-buildpack-awscli](https://github.com/heroku/hero
 
 Set up the Buildpack in your app:
 ```bash
-heroku config:add BUILDPACK_URL=https://github.com/vodolaz095/heroku-buildpack-binary-download-with-cache --app <app>
+heroku config:add BUILDPACK_URL=https://github.com/jameswenzel/heroku-buildpack-binary-download-with-aws-presigned-url-and-cache --app <app>
 ```
 
 Then create a file called `.release` in the project root directory with 4 lines.  Its important to have 4 lines here.
